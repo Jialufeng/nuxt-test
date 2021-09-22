@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-08-27 14:56:46
- * @LastEditTime: 2021-09-18 14:36:25
+ * @LastEditTime: 2021-09-22 20:06:34
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit  
  * @FilePath: /tomexam/components/header.vue
@@ -106,7 +106,7 @@ export default {
   methods: {
     // 搜索
     handleSearch() {
-      if (this.name == "") {
+      if (this.name == "" || typeof this.name != undefined) {
         this.$message.error("请输入题库名称");
         return false;
       }

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-09-17 18:32:27
- * @LastEditTime: 2021-09-18 13:37:24
+ * @LastEditTime: 2021-09-22 20:32:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /tomexam/components/pay.vue
@@ -127,7 +127,7 @@
           </ul>
         </section>
         <section>
-          <el-button class="but-pay" @click="isQRcode = true">去付款</el-button>
+          <el-button class="but-pay" @click="handlePay">去付款</el-button>
         </section>
       </section>
     </el-dialog>
@@ -136,9 +136,9 @@
       :visible.sync="isQRcode"
       width="40%"
     >
-      <section style="width: 120px; height: 120px; margin: 0 auto;">
+      <section style="width: 140px; height: 140px; margin: 0 auto;">
         <img
-          src="https://cucopic.cuco.cn/20210119/1611055444280app_code.png"
+          :src="qrcode"
           width="100%"
         />
       </section>
@@ -148,11 +148,11 @@
         </span>
       </section>
     </el-dialog>
-    
   </div>
 </template>
 
 <script>
+import { url } from "../util";
 export default {
   props: {
     subjectInfo: {
@@ -166,12 +166,42 @@ export default {
     return {
       type: 1,
       yearType: 0,
-      isQRcode: false
+      isQRcode: false,
+      qrcode: '',
     };
   },
   methods: {
+    async handlePay() {
+      const userinfo = sessionStorage.getItem("userinfo");
+      const user = JSON.parse(userinfo);
+
+      if(!user) {
+          this.$message.error('请先登录');
+          return false;
+      }
+      
+      console.log(user);
+      const data = await this.$axios.$post(
+        url.payment,
+        {
+          money: this.subjectInfo.configs[this.yearType].value,
+          orderType: 1,
+          busId: 1,
+          payType: this.type == 1 ? "1" : "2",
+          remark: "test"
+        },
+        {
+          headers: {
+            'X-Access-Token': user.token
+          }
+        }
+      );
+      console.log(data.result);
+      this.qrcode = data.result.imageData
+    //   this.isQRcode = true;
+    },
     handleClose() {
-      this.$emit("close", false);  
+      this.$emit("close", false);
     },
     getLocalTime(Num) {
       var now = new Date();

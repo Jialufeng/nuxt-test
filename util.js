@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-24 13:59:26
- * @LastEditTime: 2021-09-18 14:07:02
+ * @LastEditTime: 2021-09-22 19:30:13
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /tomexam/util.js
@@ -28,6 +28,7 @@ const url = {
     loginOut: 'web/api/user/loginOut', // 登出
     getContentDetail:'web/api/sysContent/getContentDetail', //帮助详情
     getSubjectBankDetail: 'web/api/subjectBank/getSubjectBankDetail', // 题目详情
+    payment: 'web/api/pay/payment', // 支付
     
 }
 
